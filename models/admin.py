@@ -37,12 +37,23 @@ class Admin(User):
             print("Welkom, you can now add a new consultant to the system" + "\n")
             print("Please enter the following information to add a new consultant to the system" + "\n")
             val = Validation()
-            first_name = val.name_validation(input("Please enter the first name of the consultant: "), self.username)
-            last_name = val.name_validation(input("Please enter the last name of the consultant: "), self.username)
-            username = val.username_validation(input("Please enter the username of the consultant: "), self.username)
-            password = val.password_validation(input("Please enter the password of the consultant: "), self.username)
-            adFunc = AdminFunctions()
-            adFunc.add_consultant(self, first_name, last_name, username, password)
+            print("Please enter the following information to add a new consultant to the system" + "\n")
+            first_name = input("Please enter the first name of the consultant: ")
+            if not val.name_validation(first_name, self.username):
+                return
+            last_name = input("Please enter the last name of the consultant: ")
+            if not val.name_validation(last_name, self.username):
+                return
+            username = input("Please enter the username of the consultant: ")
+            if not val.username_validation(username, self.username):
+                return
+            password = input("Please enter the password of the consultant: ")
+            if not val.password_validation(password, self.username):
+                return
+            print("TESTEN: ", first_name, last_name, username, password)
+            if first_name and last_name and username and password:
+                adFunc = AdminFunctions()
+                adFunc.add_consultant(self, first_name, last_name, username, password)
         else:
             print("You are not authorized to add a new consultant to the system" + "\n")
 

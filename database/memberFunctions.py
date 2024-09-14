@@ -231,49 +231,83 @@ class MemberFunctions(databaseFunctions):
             Val = Validation()
             if input_choice == '1':
                 new_value = Val.name_validation(input("Enter new first name:"), username)
+                if not new_value:
+                    print("Invalid first name.")
+                    return
                 new_value = encrypt_message(new_value)
                 query = f"UPDATE member SET first_name = ? WHERE id = ?"
             elif input_choice == '2':
                 new_value = Val.name_validation(input("Enter new last name:"), username)
+                if not new_value:
+                    print("Invalid last name.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET last_name = ? WHERE id = ?"
             elif input_choice == '3':
                 new_value = Val.age_validation(input("Enter new age:"), username)
+                if not new_value:
+                    print("Invalid age.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET age = ? WHERE id = ?"
             elif input_choice == '4':
                 new_value = Val.gender_validation(input("Enter new gender:"), username)
+                if not new_value:
+                    print("Invalid gender.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET gender = ? WHERE id = ?"
             elif input_choice == '5':
                 new_value = Val.weight_validation(input("Enter new weight:"), username)
+                if not new_value:
+                    print("Invalid weight.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET weight = ? WHERE id = ?"      
             elif input_choice == '6':
                 new_value = Val.streetname_validation(input("Enter new streetname:"), username)
+                if not new_value:
+                    print("Invalid streetname.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET street_address = ? WHERE id = ?"
             elif input_choice == '7':
                 new_value = Val.housenumber_validation(input("Enter new house number:"), username)
+                if not new_value:
+                    print("Invalid house number.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET house_number = ? WHERE id = ?"
             elif input_choice == '8':
                 new_value = Val.zipcode_validation(input("Enter new zip code:"), username)
+                if not new_value:
+                    print("Invalid zip code.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET zip_code = ? WHERE id = ?"
             elif input_choice == '9':
+                print("Choose city:")
                 list_city = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Groningen', 'Maastricht', 'Den Haag', 'Eindhoven', 'Tilburg', 'Breda', 'Arnhem']
                 for index, city in enumerate(list_city):
                     print(f"{index + 1}. {city}")
                 new_value = Val.city_validation(input("Choose new city:"),username)
+                if not new_value:
+                    print("Invalid city.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET city = ? WHERE id = ?"
             elif input_choice == '10':
-                new_value = Val.phonenumber_validation(input("Enter new phone number:"), username) 
+                new_value = Val.phonenumber_validation(input("Enter new phone number:"), username)
+                if not new_value:
+                    print("Invalid phone number.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET phone_number = ? WHERE id = ?"
             elif input_choice == '11':
                 new_value = Val.email_validation(input("Enter new email:"), username)
+                if not new_value:
+                    print("Invalid email.")
+                    return
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET email = ? WHERE id = ?"
             

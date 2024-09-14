@@ -26,10 +26,18 @@ class SuperAdmin(Admin):
         if self.is_authorized("superadmin"):
             print("Welkom, you can now add a new admin to the system" + "\n")
             print("Please enter the following information to add a new admin to the system" + "\n")
-            first_name = val.name_validation(input("Please enter the first name of the admin: "), self.username)
-            last_name = val.name_validation(input("Please enter the last name of the admin: "), self.username)
-            username = val.username_validation(input("Please enter the username of the admin: "), self.username)
-            password = val.password_validation(input("Please enter the password of the admin: "), self.username)
+            first_name = input("Please enter the first name of the admin: ")
+            if not val.name_validation(first_name, self.username):
+                return
+            last_name = input("Please enter the last name of the admin: ")
+            if not val.name_validation(last_name, self.username):
+                return
+            username = input("Please enter the username of the admin: ")
+            if not val.username_validation(username, self.username):
+                return
+            password = input("Please enter the password of the admin: ")
+            if not val.password_validation(password, self.username):
+                return
             superAdFunc.add_Admin(self, first_name, last_name, username, password)
         else:
             print("You are not authorized to add a new admin to the system")

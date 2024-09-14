@@ -42,8 +42,9 @@ class Validation:
         if username in resultDecrypted:
             print('Username already exists \nTry again: ')
             logger.addLogToDatabase(encrypt_message(logged_in_user), encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username which already exists in the database"), encrypt_message("No"))
-            username = input()
-            self.username_validation(username, logged_in_user)
+            # username = input()
+            # self.username_validation(username, logged_in_user)
+            return False
         return True
     
     def name_validation(self, name, username):
