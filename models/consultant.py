@@ -30,13 +30,19 @@ class User:
 
     def update_password(self):
         if self.is_authorized("consultant"):
-            new_password = input("Enter new password: ")
             val = Validation()
-            password = val.password_validation(new_password, self.username)
-            db = databaseFunctions()
-            db.updatePassword(self, password)
+            while True:
+                new_password = input("Enter new password: ")
+                if val.password_validation(new_password, self.username):
+                    db = databaseFunctions()
+                    db.updatePassword(self, new_password)
+                    print("Password updated successfully.")
+                    break
+                else:
+                    print("Password did not meet criteria. Please try again.")
         else:
-            print("You are not authorized to update password")
+            print("You are not authorized to update password.")
+
 
     def modify_member(self):
         if self.is_authorized("consultant"):

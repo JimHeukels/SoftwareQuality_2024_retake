@@ -60,47 +60,83 @@ class MemberFunctions(databaseFunctions):
             validator = Validation()
             
             print("You've chosen to add a member")
-            firstnameInput = validator.name_validation(input("Enter firstname:"), username)
+            firstname = input("Enter firstname:")
+            if not validator.name_validation(firstname, username):
+                print("Invalid firstname.")
+                return  # Stop further processing if the validation fails
+            firstname = firstname.capitalize()
+            print(firstname)
 
-            lastnameInput = validator.name_validation(input("Enter lastname:"), username)
+            lastname = input("Enter lastname:")
+            if not validator.name_validation(lastname, username):
+                print("Invalid lastname.")
+                return
+            lastname = lastname.capitalize()
+            print(lastname)
 
-            print(lastnameInput)
+            age = input("Enter age:")
+            if not validator.age_validation(age, username):
+                print("Invalid age.")
+                return
+            print(age)
 
-            ageInput = validator.age_validation(input("Enter age:"), username)
-            print(ageInput)
-
-   
-            genderInput = validator.gender_validation(input("Enter gender:"), username)
+            genderInput = input("Enter Gender:")
+            if not validator.gender_validation(genderInput, username):
+                print("Invalid gender.")
+                return
+            genderInput = genderInput.upper()
             print(genderInput)
-                    
 
-            weightInput = validator.weight_validation(input("Enter weight:"), username)
-            print(weightInput)
+            weight = input("Enter weight:")
+            if not validator.weight_validation(weight, username):
+                print("Invalid weight.")
+                return
+            print(weight)
 
-   
-            streetInput = validator.streetname_validation(input("Enter street:"), username)
-            print(streetInput)
+            street = input("Enter street:")
+            if not validator.streetname_validation(street, username):
+                print("Invalid street.")
+                return
+            street = street.capitalize()
+            print(street)
 
+            houseNr = input("Enter house number:")
+            if not validator.housenumber_validation(houseNr, username):
+                print("Invalid house number.")
+                return
+            print(houseNr)
 
-            houseNrInput = validator.housenumber_validation(input("Enter house number:"), username)
-            print(houseNrInput)
+            zipCode = input("Enter zip code:")
+            if not validator.zipcode_validation(zipCode, username):
+                print("Invalid zip code.")
+                return
+            print(zipCode)
 
-
-            zipCodeInput = validator.zipcode_validation(input("Enter zip code:"), username)
             print("Choose city:")
             list_city = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Groningen', 'Maastricht', 'Den Haag', 'Eindhoven', 'Tilburg', 'Breda', 'Arnhem']
             for index, city in enumerate(list_city):
                 print(f"{index + 1}. {city}")
-            
-            cityInput = validator.city_validation(input(), username)
-            print(cityInput)
-            
-            phoneNrInput = validator.phonenumber_validation(input("Enter phone number Should in the format +31-6-xxxxxxxx:"	), username)
+            city = input()
+            if not validator.city_validation(city, username):
+                print("Invalid city.")
+                return
+            city = list_city[int(city)-1]
+            print(city)
 
-            emailInput = validator.email_validation(input("Enter email:"), username)
+            phoneNr = input("Enter phone number Should in the format +31-6-xxxxxxxx:")
+            if not validator.phonenumber_validation(phoneNr, username):
+                print("Invalid phone number.")
+                return
+            print(phoneNr)
 
-            self.addMemberQuery(firstnameInput, lastnameInput, ageInput, genderInput, weightInput, streetInput, houseNrInput, zipCodeInput, cityInput, phoneNrInput, emailInput, username)
-        
+            
+            email = input("Enter email:")
+            if not validator.email_validation(email, username):
+                print("Invalid email.")
+                return
+            print(email)
+
+            self.addMemberQuery(firstname, lastname, age, genderInput, weight, street, houseNr, zipCode, city, phoneNr, email, username)
 
     def addMemberQuery(self, firstnameInput, lastnameInput, ageInput, genderInput, weightInput, streetInput, houseNrInput, zipCodeInput, cityInput, phoneNrInput, emailInput, username):
         from validation.encrypt import encrypt_message
