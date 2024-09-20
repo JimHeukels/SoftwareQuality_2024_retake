@@ -15,7 +15,7 @@ class Validation:
         
         if not isinstance(username, str):
             print('Your input is not correct. Please try again:')
-            logger.addLogToDatabase(encrypt_message(logged_in_user), encrypt_message("Incorrect username input"), encrypt_message("Tried a numerical input where a string was expected"), encrypt_message("No"))
+            logger.addLogToDatabase(logged_in_user, encrypt_message("Incorrect username input"), encrypt_message("Tried a numerical input where a string was expected"), encrypt_message("No"))
             # username = input("Type here again:")
             # self.username_validation(username, logged_in_user)
             return False
@@ -23,7 +23,7 @@ class Validation:
         # Check length (between 8 and 12 characters)
         if not 8 <= len(username) <= 12:
             print('Username is not between 8 and 12 characters')
-            logger.addLogToDatabase(encrypt_message(logged_in_user), encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username wasn't between 8 or 12 characters long"), encrypt_message("No"))
+            logger.addLogToDatabase(logged_in_user, encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username wasn't between 8 or 12 characters long"), encrypt_message("No"))
             # print('Try again: ')
             # username = input()
             # self.username_validation(username, logged_in_user)
@@ -31,7 +31,7 @@ class Validation:
 
         if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
             print('Username is not valid')
-            logger.addLogToDatabase(encrypt_message(logged_in_user), encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
+            logger.addLogToDatabase(logged_in_user, encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
             # print('Try again: ')
             # username = input()
             # self.username_validation(username, logged_in_user)
@@ -41,7 +41,7 @@ class Validation:
         
         if username in resultDecrypted:
             print('Username already exists \nTry again: ')
-            logger.addLogToDatabase(encrypt_message(logged_in_user), encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username which already exists in the database"), encrypt_message("No"))
+            logger.addLogToDatabase(logged_in_user, encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username which already exists in the database"), encrypt_message("No"))
             # username = input()
             # self.username_validation(username, logged_in_user)
             return False
@@ -52,13 +52,13 @@ class Validation:
         if not name.isalpha():
             # print("Name must be alphabatic. Please try again:")
             # name = input("Type here again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect name input"), encrypt_message("Tried a non-string input for a name field"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect name input"), encrypt_message("Tried a non-string input for a name field"), encrypt_message("No"))
             # self.name_validation(name, username)
             return False
         if not 1 <= len(name) <= 30:
             print('name is not between 1 and 30 characters')
             # print('Try again: ')
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect name input"), encrypt_message("Tried inputting a username which was not between 1 and 30 characters"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect name input"), encrypt_message("Tried inputting a username which was not between 1 and 30 characters"), encrypt_message("No"))
             # name = input()
             # self.name_validation(name, username)
             return False
@@ -106,18 +106,18 @@ class Validation:
             if not isinstance(username, str):
                 print('Your input is not correct. Please try again:')
                 username = input("Type here again:")
-                logger.addLogToDatabase(encrypt_message(username), encrypt_message("Unsuccesfull username login"), encrypt_message("Tried logging in with an incorrect username"), encrypt_message("No"))
+                logger.addLogToDatabase(username, encrypt_message("Unsuccesfull username login"), encrypt_message("Tried logging in with an incorrect username"), encrypt_message("No"))
                 attempt += 1
                 continue
             if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
                 print('Username is not valid')
-                logger.addLogToDatabase(encrypt_message(""), encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
+                logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
                 print('Try again: ')
                 attempt += 1
                 username = input()
                 continue
             return username
-        logger.addLogToDatabase(encrypt_message(""), encrypt_message("Unsuccessful username login"), encrypt_message("Failed to input a valid username within 3 attempts"), encrypt_message("Yes"))
+        logger.addLogToDatabase("", encrypt_message("Unsuccessful username login"), encrypt_message("Failed to input a valid username within 3 attempts"), encrypt_message("Yes"))
         print("Try again later")
         return None
 
@@ -127,35 +127,35 @@ class Validation:
         while counter < 3:
             if not 12 <= len(password) <= 30:
                 print('Password is not between 12 and 30 characters')
-                logger.addLogToDatabase(encrypt_message(""), encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
+                logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
                 password = input("Try again:")
                 counter += 1
                 continue
 
             if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
                 print('Password is not valid')
-                logger.addLogToDatabase(encrypt_message(""), encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
+                logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
                 password = input("Try again:")
                 counter += 1
                 continue
 
             return password
        
-        logger.addLogToDatabase(encrypt_message(""), encrypt_message("Unsuccessful password input"), encrypt_message("Failed to input a valid password within 3 attempts"), encrypt_message("Yes"))
+        logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Failed to input a valid password within 3 attempts"), encrypt_message("Yes"))
         return None
 
     
     def age_validation(self, age, username):
         logger = LogFunction()
         if not age.isnumeric():            
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect age input"), encrypt_message("Tried a non-numerical input"), "No")
+            logger.addLogToDatabase(username, encrypt_message("Incorrect age input"), encrypt_message("Tried a non-numerical input"), encrypt_message("No"))
             # age = input()
             # self.age_validation(age, username)
             return False
         if age.isnumeric():
             if not 5 <= int(age) <= 110:
                 print('age input is not correct \nTry again: ')
-                logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect age input"), encrypt_message("Tried an age input which was not between 5 and 110 years old"), encrypt_message("No"))
+                logger.addLogToDatabase(username, encrypt_message("Incorrect age input"), encrypt_message("Tried an age input which was not between 5 and 110 years old"), encrypt_message("No"))
                 # age = input()
                 # self.age_validation(age, username)
                 return False
@@ -168,13 +168,13 @@ class Validation:
             # print('Input is not correct. Must be numeric. \n Please try again:')
             # weight = input("Type here again:")
             # self.weight_validation(weight, username)
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect weight input"), encrypt_message("Tried a non-numerical input"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect weight input"), encrypt_message("Tried a non-numerical input"), encrypt_message("No"))
             return False
         if not 20 <= int(weight) <= 350:
             print('Weight is not reasonable, please try again: ')
             # weight = input()
             # self.weight_validation(weight, username)
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect weight input"), encrypt_message("Tried an weight input which was not reasonable"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect weight input"), encrypt_message("Tried an weight input which was not reasonable"), encrypt_message("No"))
             return False
         # return weight
         return True
@@ -184,7 +184,7 @@ class Validation:
         if not isinstance(streetname, str):
             # print('streetname is not a string')
             # streetname = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect streetname input"), encrypt_message("Tried a non-string input"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect streetname input"), encrypt_message("Tried a non-string input"), encrypt_message("No"))
             # self.streetname_validation(streetname, username)
             return False
         # return streetname.capitalize()
@@ -194,13 +194,13 @@ class Validation:
         logger = LogFunction()
         while not housenumber.isnumeric():
             # print('House number is not numeric')
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect housenumber input"), encrypt_message("Tried a non-numerical input"), "No")
+            logger.addLogToDatabase(username, encrypt_message("Incorrect housenumber input"), encrypt_message("Tried a non-numerical input"), encrypt_message("No"))
             # housenumber = input("Try again: ")
             return False
 
         while not re.match(r"^[1-9]\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\d*))?$", housenumber):
             print('House number is not valid')
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect housenumber input"), encrypt_message("Tried a housenumber that didn't confide to housenumber format"), "No")
+            logger.addLogToDatabase(username, encrypt_message("Incorrect housenumber input"), encrypt_message("Tried a housenumber that didn't confide to housenumber format"), encrypt_message("No"))
             # housenumber = input("Try again: ")
             return False
         # return housenumber
@@ -211,7 +211,7 @@ class Validation:
         if not re.match(r"^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-zA-Z]{2}$", zipcode):
             # print('Zipcode is not valid')
             # zipcode = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect zipcode input"), encrypt_message("Tried a zipcode that didn't confide to the zipcode format"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect zipcode input"), encrypt_message("Tried a zipcode that didn't confide to the zipcode format"), encrypt_message("No"))
             # self.zipcode_validation(zipcode, username)
             return False
         # return zipcode
@@ -224,7 +224,7 @@ class Validation:
             print('phone number is not valid')
             print('It should be in the format +31-6-xxxxxxxx')
             number = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect phonenumber input"), encrypt_message("Tried a phonenumber that didn't confide to the phonenumber format"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect phonenumber input"), encrypt_message("Tried a phonenumber that didn't confide to the phonenumber format"), encrypt_message("No"))
             # self.phonenumber_validation(number, username)
             return False
         # return number
@@ -235,7 +235,7 @@ class Validation:
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
             print('email is not valid')
             email = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect email input"), encrypt_message("Tried an email input which was not valid"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect email input"), encrypt_message("Tried an email input which was not valid"), encrypt_message("No"))
             # self.email_validation(email, username)
             return False
         # return email
@@ -247,14 +247,14 @@ class Validation:
         if not city.isnumeric():
             print('city is not numeric')
             city = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect city input"), encrypt_message("Tried a non-numeric input"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect city input"), encrypt_message("Tried a non-numeric input"), encrypt_message("No"))
             # self.city_validation(city, username)
             return False
         if not 1 <= int(city) <= 10:
             print('city is not between 1 and 10')
             print('city is not numeric')
             city = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect city input"), encrypt_message("Tried a city input which was not between 1 and 10"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect city input"), encrypt_message("Tried a city input which was not between 1 and 10"), encrypt_message("No"))
             # self.city_validation(city, username)
             return False
         # return list_city[int(city)-1]
@@ -265,14 +265,14 @@ class Validation:
         if not isinstance(gender, str):
 
             # gender = input("Try again:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect gender input"), encrypt_message("Tried a non-string input"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect gender input"), encrypt_message("Tried a non-string input"), encrypt_message("No"))
             # self.gender_validation(gender, username)
             return False
             
         if not re.match(r"^[FfMm]$", gender):
 
             gender = input("Try again, Must be f/F or m/M:")
-            logger.addLogToDatabase(encrypt_message(username), encrypt_message("Incorrect gender input"), encrypt_message("Not a valid gender de input"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect gender input"), encrypt_message("Not a valid gender input"), encrypt_message("No"))
             return False
         # return gender.upper()
         return True

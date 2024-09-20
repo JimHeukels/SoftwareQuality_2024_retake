@@ -33,7 +33,7 @@ class homeScreen():
 
             
             user = db_func.login()
-            print("Homescreen print user")
+            # print("Homescreen print user")
 
             
             #if user is a consultant

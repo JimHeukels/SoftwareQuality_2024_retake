@@ -58,6 +58,8 @@ class MemberFunctions(databaseFunctions):
     def addMember(self, username):
             #TODO: input check functies maken en toepassen
             validator = Validation()
+
+            firstNameCheck = False
             
             print("You've chosen to add a member")
             firstname = input("Enter firstname:")
