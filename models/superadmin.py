@@ -23,21 +23,50 @@ class SuperAdmin(Admin):
     def add_admin(self):
         val = Validation()
         superAdFunc = SuperAdminFunctions()
+
+        errorCounter = 0
+
         if self.is_authorized("superadmin"):
-            print("Welkom, you can now add a new admin to the system" + "\n")
+            print("Welcome, you can now add a new admin to the system" + "\n")
             print("Please enter the following information to add a new admin to the system" + "\n")
+            
             first_name = input("Please enter the first name of the admin: ")
-            if not val.name_validation(first_name, self.username):
-                return
+            while not val.name_validation(first_name, self.username):
+                print("Invalid first name")
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many failed attempts. Returning to main menu")
+                    return
+                first_name = input("Please enter the first name of the admin: ")
+            
             last_name = input("Please enter the last name of the admin: ")
-            if not val.name_validation(last_name, self.username):
-                return
+            while not val.name_validation(last_name, self.username):
+                print("Invalid last name")
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many failed attempts. Returning to main menu")
+                    return
+                last_name = input("Please enter the last name of the admin: ")
+                # return
+            
             username = input("Please enter the username of the admin: ")
-            if not val.username_validation(username, self.username):
-                return
+            while not val.username_validation(username, self.username):
+                print("Invalid username")
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many failed attempts. Returning to main menu")
+                    return
+                username = input("Please enter the username of the admin: ")
+            
             password = input("Please enter the password of the admin: ")
-            if not val.password_validation(password, self.username):
-                return
+            while not val.password_validation(password, self.username):
+                print("Invalid password")
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many failed attempts. Returning to main menu")
+                    return
+                password = input("Please enter the password of the admin: ")
+                
             superAdFunc.add_Admin(self, first_name, last_name, username, password)
         else:
             print("You are not authorized to add a new admin to the system")

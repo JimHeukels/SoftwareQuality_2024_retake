@@ -59,59 +59,92 @@ class MemberFunctions(databaseFunctions):
             #TODO: input check functies maken en toepassen
             validator = Validation()
 
-            firstNameCheck = False
+            errorCounter = 0
             
             print("You've chosen to add a member")
             firstname = input("Enter firstname:")
-            if not validator.name_validation(firstname, username):
+
+            while not validator.name_validation(firstname, username):
                 print("Invalid firstname.")
-                return  # Stop further processing if the validation fails
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                firstname = input("Enter firstname:")
             firstname = firstname.capitalize()
             print(firstname)
 
             lastname = input("Enter lastname:")
-            if not validator.name_validation(lastname, username):
+            while not validator.name_validation(lastname, username):
                 print("Invalid lastname.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                lastname = input("Enter lastname:")
             lastname = lastname.capitalize()
             print(lastname)
 
             age = input("Enter age:")
-            if not validator.age_validation(age, username):
+            while not validator.age_validation(age, username):
                 print("Invalid age.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                age = input("Enter age:")
             print(age)
 
-            genderInput = input("Enter Gender:")
-            if not validator.gender_validation(genderInput, username):
+            genderInput = input("Enter gender:")
+            while not validator.gender_validation(genderInput, username):
                 print("Invalid gender.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                genderInput = input("Enter gender:")
             genderInput = genderInput.upper()
             print(genderInput)
 
             weight = input("Enter weight:")
-            if not validator.weight_validation(weight, username):
+            while not validator.weight_validation(weight, username):
                 print("Invalid weight.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                weight = input("Enter weight:")
             print(weight)
 
             street = input("Enter street:")
-            if not validator.streetname_validation(street, username):
+            while not validator.streetname_validation(street, username):
                 print("Invalid street.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                street = input("Enter street:")
             street = street.capitalize()
             print(street)
 
             houseNr = input("Enter house number:")
-            if not validator.housenumber_validation(houseNr, username):
+            while not validator.housenumber_validation(houseNr, username):
                 print("Invalid house number.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                houseNr = input("Enter house number:")
             print(houseNr)
 
             zipCode = input("Enter zip code:")
-            if not validator.zipcode_validation(zipCode, username):
+            while not validator.zipcode_validation(zipCode, username):
                 print("Invalid zip code.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                zipCode = input("Enter zip code:")
             print(zipCode)
 
             print("Choose city:")
@@ -119,23 +152,35 @@ class MemberFunctions(databaseFunctions):
             for index, city in enumerate(list_city):
                 print(f"{index + 1}. {city}")
             city = input()
-            if not validator.city_validation(city, username):
+            while not validator.city_validation(city, username):
                 print("Invalid city.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                city = input("Choose city:")
             city = list_city[int(city)-1]
             print(city)
 
             phoneNr = input("Enter phone number Should in the format +31-6-xxxxxxxx:")
-            if not validator.phonenumber_validation(phoneNr, username):
+            while not validator.phonenumber_validation(phoneNr, username):
                 print("Invalid phone number.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                phoneNr = input("Enter phone number:")
             print(phoneNr)
 
             
             email = input("Enter email:")
-            if not validator.email_validation(email, username):
+            while not validator.email_validation(email, username):
                 print("Invalid email.")
-                return
+                errorCounter += 1
+                if errorCounter == 3:
+                    print("Too many attempts. Exiting...")
+                    return
+                email = input("Enter email:")
             print(email)
 
             self.addMemberQuery(firstname, lastname, age, genderInput, weight, street, houseNr, zipCode, city, phoneNr, email, username)
@@ -184,6 +229,8 @@ class MemberFunctions(databaseFunctions):
         #laat alle members zien
         print("You've chosen to modify a member. These are all the members currently in the system: ")
         members = self.queryMembersAll()
+
+        errorCounter = 0
         
         if not members:
             print("No members found.")
@@ -232,84 +279,138 @@ class MemberFunctions(databaseFunctions):
             input_choice = input()
             Val = Validation()
             if input_choice == '1':
-                new_value = Val.name_validation(input("Enter new first name:"), username)
-                if not new_value:
+                new_value = ("Enter new first name:")
+                while not Val.name_validation(new_value, username):
                     print("Invalid first name.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new first name:")
                 new_value = encrypt_message(new_value)
                 query = f"UPDATE member SET first_name = ? WHERE id = ?"
+
             elif input_choice == '2':
-                new_value = Val.name_validation(input("Enter new last name:"), username)
-                if not new_value:
+                new_value = ("Enter new last name:")
+                while not Val.name_validation(new_value, username):
                     print("Invalid last name.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new first name:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET last_name = ? WHERE id = ?"
+                
             elif input_choice == '3':
-                new_value = Val.age_validation(input("Enter new age:"), username)
-                if not new_value:
+                new_value = input("Enter new age:")
+                while not Val.age_validation(new_value, username):
                     print("Invalid age.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new age:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET age = ? WHERE id = ?"
+
             elif input_choice == '4':
-                new_value = Val.gender_validation(input("Enter new gender:"), username)
-                if not new_value:
+                new_value = input("Enter new gender:")
+                while not Val.gender_validation(new_value, username):
                     print("Invalid gender.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new gender")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET gender = ? WHERE id = ?"
+
             elif input_choice == '5':
-                new_value = Val.weight_validation(input("Enter new weight:"), username)
-                if not new_value:
+                new_value = input("Enter new weight:")
+                while not Val.weight_validation(new_value, username):
                     print("Invalid weight.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new weight:")
                 new_value = encrypt_message(new_value) 
-                query = f"UPDATE member SET weight = ? WHERE id = ?"      
+                query = f"UPDATE member SET weight = ? WHERE id = ?"    
+
             elif input_choice == '6':
-                new_value = Val.streetname_validation(input("Enter new streetname:"), username)
-                if not new_value:
+                new_value = input("Enter new streetname:")
+                while not Val.streetname_validation(new_value, username):
                     print("Invalid streetname.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new streetname:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET street_address = ? WHERE id = ?"
+
             elif input_choice == '7':
-                new_value = Val.housenumber_validation(input("Enter new house number:"), username)
-                if not new_value:
+                new_value = input("Enter new house number:")
+                while not Val.housenumber_validation(new_value, username):
                     print("Invalid house number.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new house number:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET house_number = ? WHERE id = ?"
+
             elif input_choice == '8':
-                new_value = Val.zipcode_validation(input("Enter new zip code:"), username)
-                if not new_value:
+                new_value = input("Enter new zip code:")
+                while not Val.zipcode_validation(new_value, username):
                     print("Invalid zip code.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new zip code:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET zip_code = ? WHERE id = ?"
+
             elif input_choice == '9':
                 print("Choose city:")
                 list_city = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Groningen', 'Maastricht', 'Den Haag', 'Eindhoven', 'Tilburg', 'Breda', 'Arnhem']
                 for index, city in enumerate(list_city):
                     print(f"{index + 1}. {city}")
-                new_value = Val.city_validation(input("Choose new city:"),username)
-                if not new_value:
+                new_value = input("Choose new city:")
+                while not Val.city_validation(new_value, username):
                     print("Invalid city.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Choose new city:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET city = ? WHERE id = ?"
+
             elif input_choice == '10':
-                new_value = Val.phonenumber_validation(input("Enter new phone number:"), username)
-                if not new_value:
+                new_value = input("Enter new phone number:")
+                while not Val.phonenumber_validation(new_value, username):
                     print("Invalid phone number.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new phone number:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET phone_number = ? WHERE id = ?"
+
             elif input_choice == '11':
-                new_value = Val.email_validation(input("Enter new email:"), username)
-                if not new_value:
+                new_value = input("Enter new email:")
+                while not Val.email_validation(new_value, username):
                     print("Invalid email.")
-                    return
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many attempts. Exiting...")
+                        return
+                    new_value = input("Enter new email:")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE member SET email = ? WHERE id = ?"
             
