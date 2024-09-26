@@ -34,23 +34,49 @@ class Admin(User):
         from validation.inputvalidation import Validation
         from database.adminFunctions import AdminFunctions
         if self.is_authorized("admin"):
-            print("Welkom, you can now add a new consultant to the system" + "\n")
+            print("Welcome, you can now add a new consultant to the system")
             print("Please enter the following information to add a new consultant to the system" + "\n")
             val = Validation()
-            print("Please enter the following information to add a new consultant to the system" + "\n")
+
+            errorCounter = 0
+
             first_name = input("Please enter the first name of the consultant: ")
-            if not val.name_validation(first_name, self.username):
-                return
+            while not val.name_validation(first_name, self.username):
+                print("Invalid first name")
+                errorCounter += 1
+                if errorCounter > 2:
+                    print("Too many errors, exiting")
+                    return
+                first_name = input("Please enter the first name of the consultant: ")
+
             last_name = input("Please enter the last name of the consultant: ")
-            if not val.name_validation(last_name, self.username):
-                return
+            while not val.name_validation(last_name, self.username):
+                print("Invalid last name")
+                errorCounter += 1
+                if errorCounter > 2:
+                    print("Too many errors, exiting")
+                    return
+                last_name = input("Please enter the last name of the consultant: ")
+
             username = input("Please enter the username of the consultant: ")
-            if not val.username_validation(username, self.username):
-                return
+            while not val.username_validation(username, self.username):
+                print("Invalid username")
+                errorCounter += 1
+                if errorCounter > 2:
+                    print("Too many errors, exiting")
+                    return
+                username = input("Please enter the username of the consultant: ")
+
             password = input("Please enter the password of the consultant: ")
-            if not val.password_validation(password, self.username):
-                return
-            print("TESTEN: ", first_name, last_name, username, password)
+            while not val.password_validation(password, self.username):
+                print("Invalid password")
+                errorCounter += 1
+                if errorCounter > 2:
+                    print("Too many errors, exiting")
+                    return
+                password = input("Please enter the password of the consultant: ")
+
+            # print("TESTEN: ", first_name, last_name, username, password)
             if first_name and last_name and username and password:
                 adFunc = AdminFunctions()
                 adFunc.add_consultant(self, first_name, last_name, username, password)
@@ -124,8 +150,19 @@ class Admin(User):
         from database.adminFunctions import AdminFunctions
         if self.is_authorized("admin"):
             adFunc = AdminFunctions()
-            print("Welcome, you can now restore a backup of the system" + "\n")
-            adFunc.restore_backup()
+            print("You have chosen to restore a backup of the system" + "\n")
+            print("Please note that restoring a backup will overwrite the current system data" + "\n")
+            print("Also note that you will be logged out of the system after restoring the backup" + "\n")
+            confirm = input("Do you want to continue? (y/n): ")
+
+            if confirm.lower() == "y":
+                adFunc.restore_backup()
+                print("Exiting program")
+                exit()
+            else:
+                return
+            
+            # print("Welcome, you can now restore a backup of the system" + "\n")
         else:
             print("You are not authorized to restore a backup of the system" + "\n")
         

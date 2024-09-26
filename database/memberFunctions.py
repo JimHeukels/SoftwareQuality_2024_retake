@@ -226,7 +226,7 @@ class MemberFunctions(databaseFunctions):
 
         self.openConnection()
 
-        #laat alle members zien
+        #show all members
         print("You've chosen to modify a member. These are all the members currently in the system: ")
         members = self.queryMembersAll()
 
@@ -278,6 +278,7 @@ class MemberFunctions(databaseFunctions):
 
             input_choice = input()
             Val = Validation()
+            
             if input_choice == '1':
                 new_value = ("Enter new first name:")
                 while not Val.name_validation(new_value, username):

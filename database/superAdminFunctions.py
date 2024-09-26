@@ -108,29 +108,57 @@ class SuperAdminFunctions(databaseFunctions):
 
             self.openConnection()
             input_choice = input()
+
+            errorCounter = 0
+
             if input_choice == "1":
-                new_value = validator.name_validation(input("Enter the new first name: "), user.username)
+                
+                new_value = input("Enter the new first name: ")
+                while not validator.name_validation(new_value, user.username):
+                    print("Invalid name. Please try again.")
+                    errorCounter += 1
+                    if errorCounter > 2:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter the new first name: ")
                 new_value = encrypt_message(new_value)
                 query = f"UPDATE admin SET first_name = ? WHERE id = ?"
-                print("First name updated successfully")
+
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("Admin that you modified is: " + (specificAdmin[1])), encrypt_message("No"))
             elif input_choice == "2":
-                new_value = validator.name_validation(input("Enter the new last name: "), user.username)
+                new_value = input("Enter the new last name: ")
+                while not validator.name_validation(new_value, user.username):
+                    errorCounter += 1
+                    if errorCounter > 2:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter the new last name: ")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE admin SET last_name = ? WHERE id = ?"
-                print("Last name updated successfully")
+
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("Admin name '" + str(specificAdmin[1])+ " "  + specificAdmin[2] + "', changed to '" + specificAdmin[1] + " " + new_value + "'"), encrypt_message("No"))
             elif input_choice == "3":
-                new_value = validator.age_validation(input("Enter the new username: "), user.username)
+                new_value = input("Enter the new username: ")
+                while not validator.username_validation(new_value, user.username):
+                    errorCounter += 1
+                    if errorCounter > 2:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter the new username: ")
                 new_value = encrypt_message(new_value) 
                 query = f"UPDATE admin SET username = ? WHERE id = ?"
-                print("Username updated successfully")
+
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("Admin username changed from " + str(specificAdmin[3])+ " to "  + new_value), encrypt_message("No"))
             elif input_choice == "4":
-                new_value = validator.password_validation(input("Enter the new password: "), user.username)
+                new_value = input("Enter the new password: ")
+                while not validator.password_validation(new_value, user.username):
+                    errorCounter += 1
+                    if errorCounter > 2:
+                        print("Too many errors. Exiting...")
+                        return
                 new_value = encrypt_message(new_value)
                 query = f"UPDATE admin SET password = ? WHERE id = ?"
-                print("Password updated successfully")
+
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("password changed for admin " + specificAdmin[3]), encrypt_message("No"))
             logger.addLogToDatabase(user.username, encrypt_message("User is modified"), encrypt_message("User that you modified is: " + (specificAdmin[1])), encrypt_message("No"))
             self.openConnection()

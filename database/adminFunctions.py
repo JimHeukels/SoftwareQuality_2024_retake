@@ -2,6 +2,7 @@
 from database.databaseFunctions import databaseFunctions
 from database.consultantFunctions import ConsultantFunctions
 from database.memberFunctions import MemberFunctions
+from validation.inputvalidation import Validation
 from database.logFunction import LogFunction
 from tabulate import tabulate
 import sqlite3
@@ -145,13 +146,16 @@ class AdminFunctions(databaseFunctions):
     def modify_consultant(self, user):
         logger = LogFunction()
         from validation.encrypt import encrypt_message
+        from validation import authorization
 
         
         self.openConnection()
-        # Show all the consultants
 
+        # Show all the consultants
         print("You've chosen to modify a consultant. These are all the consultants currently in the system: ")
         consultants = self.queryConsultantsAll()
+
+        errorCounter = 0
         
         if not consultants:
             print("No members found.")
@@ -199,31 +203,65 @@ class AdminFunctions(databaseFunctions):
 
             self.openConnection()
             input_choice = input()
+            Val = Validation()
+
             if input_choice == '1':
-                new_firstname = input("Enter new first name:")
+                new_value = input("Enter new first name:")
+                while not Val.name_validation(new_value, user.username):
+                    print("Invalid input. Please enter a valid name.")
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter new first name:")
+
+                new_value = encrypt_message(new_value)
                 query = f"UPDATE consultant SET first_name = ? WHERE id = ?"
-                self.db.execute(query, (encrypt_message(new_firstname), specificConsultant[0]))
-                self.db.commit()
+
             elif input_choice == '2':
-                new_lastname = input("Enter new last name:")
+                new_value = input("Enter new last name:")
+                while not Val.name_validation(new_value, user.username):
+                    print("Invalid input. Please enter a valid name.")
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter new last name:")
+                new_value = encrypt_message(new_value)
                 query = f"UPDATE consultant SET last_name = ? WHERE id = ?"
-                self.db.execute(query, (encrypt_message(new_lastname), specificConsultant[0]))
-                self.db.commit()
+
             elif input_choice == '3':
-                new_username = input("Enter new username:")
+                new_value = input("Enter new username:")
+                while not Val.username_validation(new_value, user.username):
+                    print("Invalid input. Please enter a valid username.")
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter new username:")
+                new_value = encrypt_message(new_value)
                 query = f"UPDATE consultant SET username = ? WHERE id = ?"
-                self.db.execute(query, (encrypt_message(new_username), specificConsultant[0]))
-                self.db.commit()
+
             elif input_choice == '4':
-                new_password = input("Enter new password:")
+                new_value = input("Enter new password:")
+                while not Val.password_validation(new_value, user.username):
+                    print("Invalid input. Please enter a valid password.")
+                    errorCounter += 1
+                    if errorCounter == 3:
+                        print("Too many errors. Exiting...")
+                        return
+                    new_value = input("Enter new password:")
+                new_value = authorization.hash_password(new_value)
                 query = f"UPDATE consultant SET password = ? WHERE id = ?"
-                self.db.execute(query, (encrypt_message(new_password), specificConsultant[0]))
-                self.db.commit()
+
             
 
-            self.closeConnection()
+            self.db.execute(query, (new_value, specificConsultant[0]))
+            self.db.commit()
+            print("Consultant modified successfully.")
 
             logger.addLogToDatabase(user.username, encrypt_message("Modified a consultant"), encrypt_message("Consultant username: " + str(specificConsultant[3])), encrypt_message("No"))
+            self.closeConnection()
 
             
 

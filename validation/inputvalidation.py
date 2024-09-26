@@ -74,7 +74,7 @@ class Validation:
             # password = input("Try again:")
             # self.password_validation(password, username)
             return False
-        print("This is a test: " + password)
+        # print("This is a test: " + password)
         if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,30}$", password):
             print('password is not valid Test1')
             logger.addLogToDatabase(username, encrypt_message("Unsuccessfull update"), encrypt_message("Tried inputting a password which did not confide to the password rules"), encrypt_message("No"))

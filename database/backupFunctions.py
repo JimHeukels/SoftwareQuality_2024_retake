@@ -12,3 +12,4 @@ class BackupFunctions:
     def restoreBackup(self):
         with zipfile.ZipFile('backup.zip', 'r') as zipF:
             zipF.extractall()
+        print("Backup restored successfully.")
