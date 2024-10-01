@@ -26,7 +26,7 @@ class homeScreen():
 
 
         userInput = input()
-        print(userInput)
+        # print(userInput)
 
         if(userInput == "1"):
                     
@@ -54,4 +54,8 @@ class homeScreen():
         elif(userInput == 2):
             print("Goodbye!")
             exit()
+
+        else:
+            print("Invalid input, please try again")
+            homeScreen.homeScreen()
 

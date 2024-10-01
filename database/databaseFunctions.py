@@ -79,7 +79,7 @@ class databaseFunctions:
 
                                 passwordHashed = hash_password(password)
                                 if role == 'admin':
-                                    print("Admin role found")
+                                    # print("Admin role found")
                                     if validate_password(passwordHashed, result[4]):     
                                         user = Admin(result[0], result[1], result[2], result[3], result[4], result[5])
 
@@ -90,7 +90,7 @@ class databaseFunctions:
                                 elif role == 'consultant':
                                     if validate_password(passwordHashed, result[4]): 
                                         user = Consultant(result[0], result[1], result[2], result[3], result[4], result[5])
-                                        # print("Consultant validate password succeeded")
+                                        print("Consultant validate password succeeded")
                                         logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
                                         self.closeConnection()
                                         return user
@@ -105,8 +105,8 @@ class databaseFunctions:
                                 print("Incorrect login information. Please try again.")
                                 
 
-                    print("Incorrect login information. Please try again.")
-                    counter += 1
+                print("Incorrect login information. Please try again.")
+                counter += 1
 
 
                 self.closeConnection()

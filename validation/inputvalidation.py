@@ -38,6 +38,10 @@ class Validation:
             return False
 
         resultDecrypted = db.queryAllUsers()
+
+        print("DEBUG")
+        print(resultDecrypted)
+        print("DEBUG")
         
         if username in resultDecrypted:
             print('Username already exists \nTry again: ')
@@ -58,7 +62,7 @@ class Validation:
         if not 1 <= len(name) <= 30:
             print('name is not between 1 and 30 characters')
             # print('Try again: ')
-            logger.addLogToDatabase(username, encrypt_message("Incorrect name input"), encrypt_message("Tried inputting a username which was not between 1 and 30 characters"), encrypt_message("No"))
+            logger.addLogToDatabase(username, encrypt_message("Incorrect name input"), encrypt_message("Tried inputting a name which was not between 1 and 30 characters"), encrypt_message("No"))
             # name = input()
             # self.name_validation(name, username)
             return False
@@ -76,7 +80,7 @@ class Validation:
             return False
         # print("This is a test: " + password)
         if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,30}$", password):
-            print('password is not valid Test1')
+            print('password did not contain any special characters')
             logger.addLogToDatabase(username, encrypt_message("Unsuccessfull update"), encrypt_message("Tried inputting a password which did not confide to the password rules"), encrypt_message("No"))
             # password = input("Try again:")
             # self.password_validation(password, username)
@@ -245,14 +249,14 @@ class Validation:
         logger = LogFunction()
         list_city = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Groningen', 'Maastricht', 'Den Haag', 'Eindhoven', 'Tilburg', 'Breda', 'Arnhem']
         if not city.isnumeric():
-            print('city is not numeric')
+            print('incorrect input. Choose any of the given cities by inputting a number')
             city = input("Try again:")
             logger.addLogToDatabase(username, encrypt_message("Incorrect city input"), encrypt_message("Tried a non-numeric input"), encrypt_message("No"))
             # self.city_validation(city, username)
             return False
         if not 1 <= int(city) <= 10:
-            print('city is not between 1 and 10')
-            print('city is not numeric')
+            print('city input was not between 1 and 10')
+            # print('city is not numeric')
             city = input("Try again:")
             logger.addLogToDatabase(username, encrypt_message("Incorrect city input"), encrypt_message("Tried a city input which was not between 1 and 10"), encrypt_message("No"))
             # self.city_validation(city, username)

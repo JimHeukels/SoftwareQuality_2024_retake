@@ -72,6 +72,8 @@ class SuperAdminFunctions(databaseFunctions):
 
     def modify_admin(self, user):
         from validation.inputvalidation import encrypt_message
+        from validation import authorization
+
         logger = LogFunction()
         validator = Validation()
 
@@ -156,7 +158,8 @@ class SuperAdminFunctions(databaseFunctions):
                     if errorCounter > 2:
                         print("Too many errors. Exiting...")
                         return
-                new_value = encrypt_message(new_value)
+                    new_value = input("Enter the new password: ")
+                new_value = authorization.hash_password(new_value)
                 query = f"UPDATE admin SET password = ? WHERE id = ?"
 
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("password changed for admin " + specificAdmin[3]), encrypt_message("No"))
