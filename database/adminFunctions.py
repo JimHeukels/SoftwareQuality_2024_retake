@@ -193,7 +193,9 @@ class AdminFunctions(databaseFunctions):
             if specificConsultant is None:
                 print("No consultant found with that ID")
                 return
-                    
+                
+            # print("DEBUG: GEBRUIKEN WE DIT?")
+            
             print("Consultant with id " + str(chosenConsultant) + " found.")
             print(specificConsultant[1])
             print("which field would you like to modify?")

@@ -32,6 +32,7 @@ class User:
         if self.is_authorized("consultant"):
             val = Validation()
             while True:
+                print("DEBUG: UPDATE_PASSWORD CONSULTANT")
                 new_password = input("Enter new password: ")
                 if val.password_validation(new_password, self.username):
                     db = databaseFunctions()

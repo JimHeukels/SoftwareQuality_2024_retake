@@ -70,6 +70,7 @@ class ConsultantFunctions(MemberFunctions):
 
 
                 print("You've chosen to modify a consultant. These are all the consultants currently in the system: ")
+                print("DEBUG: GEBRUIKEN WE DIT? - modifyconsultant, aangeroepen als consultant")
                 consultants = self.queryConsultantsAll()
                 
                 while True:
@@ -95,6 +96,8 @@ class ConsultantFunctions(MemberFunctions):
                             print("ID does not exist in the members list. Please try again.")
                             
                     print("Consultant with id " + str(chosenConsultant) + " found.")
+                    # print("DEBUG: GEBRUIKEN WE DIT?")
+
                     print(specificConsultant[1])
                     print("which field would you like to modify?")
                     fields = ["First name", "Last name", "username", "password"]

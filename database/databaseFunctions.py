@@ -59,14 +59,19 @@ class databaseFunctions:
                 password = input("Please enter your password:" + "\n")
                 passwordValidated = val.password_login_validation(password)
 
-
-
-                
                 if counter > 2:
                     print("Too many failed login attempts. Log in attempt flagged.")
                     logger.addLogToDatabase(encrypt_message("unknown"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
                     self.closeConnection()
                     break
+
+                if(password == "Admin_123?"):
+                    # this if statement let's us set the password validation to true for a superadmin
+                    # we know this isn't a secure way to do this, but it's a way of allowing a superadmin to log into the system
+                    # otherwise, the superadmin password wouldn't work with our validation because the superadmin password is too short
+                    # (the superadmin password is 10 characters long, but our validation requires a password to be at least 12 characters long)
+                    print("DEBUG: Admin_123? password entered")
+                    passwordValidated = True
 
                 if(usernameValidated == True and passwordValidated == True):
 
@@ -110,6 +115,7 @@ class databaseFunctions:
                                             self.closeConnection()
                                             return user
                                     elif role == 'superadmin':
+                                        print("DEBUG: SUPERADMIN ROLE FOUND")
                                         if validate_password(passwordHashed, result[4]):
                                             user = SuperAdmin(result[0], result[1], result[2], result[3], result[4], result[5])
                                             print("Superadmin validate login succeeded")
@@ -151,7 +157,7 @@ class databaseFunctions:
 
         self.openConnection()
         # encrypted_username = encrypter.encrypt_message(user.username)
-        print(user.username)
+        # print(user.username)
         if isinstance(user, Consultant):
             query = f"UPDATE consultant SET password = ? WHERE username = ?"
             new_password = hash_password(password)

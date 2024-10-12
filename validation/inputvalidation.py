@@ -87,6 +87,7 @@ class Validation:
             return False
         return True
     
+    # HIERONDER STAAT DE OUDE PASSWORD_UPDATE_VALIDATION FUNCTIE
     def password_update_validation(self, password, username):
         logger = LogFunction()
         if not 12 <= len(password) <= 30:
@@ -101,6 +102,22 @@ class Validation:
             password = input("Try again:")
             self.password_validation(password, username)
         return password
+    
+    # HIERONDER STAAT DE NIEUWE PASSWORD_UPDATE_VALIDATION FUNCTIE
+    def password_update_validation(self, password, username):
+        logger = LogFunction()
+        if not 12 <= len(password) <= 30:
+            print('password is not between 12 and 30 characters')
+            logger.addLogToDatabase(username, encrypt_message("Unsuccessfull password update"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
+
+            return False
+        
+        if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
+            print('password is not valid')
+            logger.addLogToDatabase(username, encrypt_message("Unsuccessfull password update"), encrypt_message("Tried inputting a password which did not confide to the password rules"), encrypt_message("No"))
+
+            return False
+        return True
    
     #CHECK TO DO
 
