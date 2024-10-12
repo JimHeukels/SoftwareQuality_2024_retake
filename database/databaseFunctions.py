@@ -52,61 +52,77 @@ class databaseFunctions:
             while True:
                 
                 print("Please enter your username:" + "\n")
-                username = val.username_login_validation(input())
+                username = input()
+                usernameValidated = val.username_login_validation(username)
+                # print("DEBUG: LOGIN CHECK")
+                # print(username)
                 password = input("Please enter your password:" + "\n")
+                passwordValidated = val.password_login_validation(password)
 
-                if counter > 3:
+
+
+                
+                if counter > 2:
                     print("Too many failed login attempts. Log in attempt flagged.")
                     logger.addLogToDatabase(encrypt_message("unknown"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
                     self.closeConnection()
                     break
 
-                for user_data in usernames_all:
-                    if user_data[1] == username:
-                        #get the password from the database from the id of the user_data[1]
-                        roles = ['admin', 'consultant', 'superadmin']
-                        user = None
+                if(usernameValidated == True and passwordValidated == True):
 
-                        for role in roles:
-                            query = f"SELECT * FROM { role } WHERE id = ?"
-                            self.openConnection()
+                    for user_data in usernames_all:
+                        # print("DEBUG: looping through users")
 
-                            self.cursor.execute(query, (user_data[0],))
-                            result = self.cursor.fetchone()
+                        if user_data[1] == username:
+                            # print("DEBUG: userdata found")
+                            
+                            #get the password from the database from the id of the user_data[1]
+                            roles = ['admin', 'consultant', 'superadmin']
+                            user = None
 
-                            if(result):
-                                
+                            for role in roles:
+                                # print("DEBUG: looping through roles")
 
-                                passwordHashed = hash_password(password)
-                                if role == 'admin':
-                                    # print("Admin role found")
-                                    if validate_password(passwordHashed, result[4]):     
-                                        user = Admin(result[0], result[1], result[2], result[3], result[4], result[5])
+                                query = f"SELECT * FROM { role } WHERE id = ?"
+                                self.openConnection()
 
-                                        print("Admin validate password succeeded")     
-                                        logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
-                                        self.closeConnection()
-                                        return user
-                                elif role == 'consultant':
-                                    if validate_password(passwordHashed, result[4]): 
-                                        user = Consultant(result[0], result[1], result[2], result[3], result[4], result[5])
-                                        print("Consultant validate password succeeded")
-                                        logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
-                                        self.closeConnection()
-                                        return user
-                                elif role == 'superadmin':
-                                    if validate_password(passwordHashed, result[4]):
-                                        user = SuperAdmin(result[0], result[1], result[2], result[3], result[4], result[5])
-                                        print("Superadmin validate password succeeded")
-                                        logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("succesfull login"), encrypt_message("No"))
-                                        self.closeConnection()
-                                        return user
-                            else:
-                                print("Incorrect login information. Please try again.")
+                                self.cursor.execute(query, (user_data[0],))
+                                result = self.cursor.fetchone()
+
+                                if(result):
+                                    
+
+                                    passwordHashed = hash_password(password)
+                                    if role == 'admin':
+                                        # print("Admin role found")
+                                        if validate_password(passwordHashed, result[4]):     
+                                            user = Admin(result[0], result[1], result[2], result[3], result[4], result[5])
+
+                                            print("Admin validate login succeeded")     
+                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
+                                            self.closeConnection()
+                                            return user
+                                    elif role == 'consultant':
+                                        if validate_password(passwordHashed, result[4]): 
+                                            user = Consultant(result[0], result[1], result[2], result[3], result[4], result[5])
+                                            print("Consultant validate login succeeded")
+                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
+                                            self.closeConnection()
+                                            return user
+                                    elif role == 'superadmin':
+                                        if validate_password(passwordHashed, result[4]):
+                                            user = SuperAdmin(result[0], result[1], result[2], result[3], result[4], result[5])
+                                            print("Superadmin validate login succeeded")
+                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("succesfull login"), encrypt_message("No"))
+                                            self.closeConnection()
+                                            return user
+                                else:
+                                    print("Incorrect login information. Please try again.")
                                 
 
                 print("Incorrect login information. Please try again.")
                 counter += 1
+                # print("DEBUG: counter increased")
 
 
                 self.closeConnection()

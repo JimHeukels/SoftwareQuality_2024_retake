@@ -103,50 +103,92 @@ class Validation:
         return password
    
     #CHECK TO DO
-    def username_login_validation(self, username, attempt=0, max_attempts=3):
-        logger = LogFunction()
-        # Check if the input is a string
-        while attempt < max_attempts:
-            if not isinstance(username, str):
-                print('Your input is not correct. Please try again:')
-                username = input("Type here again:")
-                logger.addLogToDatabase(username, encrypt_message("Unsuccesfull username login"), encrypt_message("Tried logging in with an incorrect username"), encrypt_message("No"))
-                attempt += 1
-                continue
-            if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
-                print('Username is not valid')
-                logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
-                print('Try again: ')
-                attempt += 1
-                username = input()
-                continue
-            return username
-        logger.addLogToDatabase("", encrypt_message("Unsuccessful username login"), encrypt_message("Failed to input a valid username within 3 attempts"), encrypt_message("Yes"))
-        print("Try again later")
-        return None
 
+    # # HIERONDER STAAT DE OUDE USERNAME_LOGIN_VALIDATION FUNCTIE
+    # def username_login_validation(self, username, attempt=0, max_attempts=3):
+    #     logger = LogFunction()
+    #     # Check if the input is a string
+    #     while attempt < max_attempts:
+    #         if not isinstance(username, str):
+    #             print('Your input is not correct. Please try again:')
+    #             username = input("Type here again:")
+    #             logger.addLogToDatabase(username, encrypt_message("Unsuccesfull username login"), encrypt_message("Tried logging in with an incorrect username"), encrypt_message("No"))
+    #             attempt += 1
+    #             continue
+    #         if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
+    #             print('Username is not valid')
+    #             logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
+    #             print('Try again: ')
+    #             attempt += 1
+    #             username = input()
+    #             continue
+    #         return username
+    #     logger.addLogToDatabase("", encrypt_message("Unsuccessful username login"), encrypt_message("Failed to input a valid username within 3 attempts"), encrypt_message("Yes"))
+    #     print("Try again later")
+    #     return None
+    
+    # HIERONDER STAAT DE nieuwe USERNAME_LOGIN_VALIDATION FUNCTIE
+    def username_login_validation(self, username):
+        logger = LogFunction()
+        if not isinstance(username, str):
+            print('Your input is not correct. Please try again:')
+            logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried a numerical input where a string was expected"), encrypt_message("No"))
+            print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
+            return False
+        if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
+            print('Username is not valid')
+            print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
+
+            logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
+            return False
+        print('DEBUG: KOMT HIJ IN DEZE TRUE? - username_login_validation')
+        
+        return True
+
+        
+    # # HIERONDER STAAT DE OUDE PASSWORD_LODING_VALIDATION FUNCTIE
+    # def password_login_validation(self, password):
+    #     logger = LogFunction()
+    #     counter = 0 
+    #     while counter < 3:
+    #         if not 12 <= len(password) <= 30:
+    #             print('Password is not between 12 and 30 characters')
+    #             logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
+    #             password = input("Try again:")
+    #             counter += 1
+    #             continue
+
+    #         if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
+    #             print('Password is not valid')
+    #             logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
+    #             password = input("Try again:")
+    #             counter += 1
+    #             continue
+
+    #         return password
+       
+    #     logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Failed to input a valid password within 3 attempts"), encrypt_message("Yes"))
+    #     return None
+    
+    
+    # HIERONDER STAAT DE nieuwe PASSWORD_LOGIN_VALIDATION FUNCTIE
     def password_login_validation(self, password):
         logger = LogFunction()
-        counter = 0 
-        while counter < 3:
-            if not 12 <= len(password) <= 30:
-                print('Password is not between 12 and 30 characters')
-                logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
-                password = input("Try again:")
-                counter += 1
-                continue
-
-            if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
-                print('Password is not valid')
-                logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
-                password = input("Try again:")
-                counter += 1
-                continue
-
-            return password
-       
-        logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Failed to input a valid password within 3 attempts"), encrypt_message("Yes"))
-        return None
+        if not 12 <= len(password) <= 30:
+            print('Password is not between 12 and 30 characters')
+            logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
+            print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
+            
+            return False
+        if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
+            print('Password is not valid')
+            logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
+            print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
+            
+            return False
+        print('DEBUG: KOMT HIJ IN DEZE TRUE? - password_login_validation')
+        
+        return True
 
     
     def age_validation(self, age, username):
