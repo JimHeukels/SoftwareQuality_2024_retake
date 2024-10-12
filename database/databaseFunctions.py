@@ -70,7 +70,7 @@ class databaseFunctions:
                     # we know this isn't a secure way to do this, but it's a way of allowing a superadmin to log into the system
                     # otherwise, the superadmin password wouldn't work with our validation because the superadmin password is too short
                     # (the superadmin password is 10 characters long, but our validation requires a password to be at least 12 characters long)
-                    print("DEBUG: Admin_123? password entered")
+                    # print("DEBUG: Admin_123? password entered")
                     passwordValidated = True
 
                 if(usernameValidated == True and passwordValidated == True):
@@ -115,7 +115,7 @@ class databaseFunctions:
                                             self.closeConnection()
                                             return user
                                     elif role == 'superadmin':
-                                        print("DEBUG: SUPERADMIN ROLE FOUND")
+                                        # print("DEBUG: SUPERADMIN ROLE FOUND")
                                         if validate_password(passwordHashed, result[4]):
                                             user = SuperAdmin(result[0], result[1], result[2], result[3], result[4], result[5])
                                             print("Superadmin validate login succeeded")

@@ -70,7 +70,7 @@ class ConsultantFunctions(MemberFunctions):
 
 
                 print("You've chosen to modify a consultant. These are all the consultants currently in the system: ")
-                print("DEBUG: GEBRUIKEN WE DIT? - modifyconsultant, aangeroepen als consultant")
+                # print("DEBUG: GEBRUIKEN WE DIT? - modifyconsultant, aangeroepen als consultant")
                 consultants = self.queryConsultantsAll()
                 
                 while True:

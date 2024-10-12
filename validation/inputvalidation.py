@@ -39,9 +39,9 @@ class Validation:
 
         resultDecrypted = db.queryAllUsers()
 
-        print("DEBUG")
-        print(resultDecrypted)
-        print("DEBUG")
+        # print("DEBUG")
+        # print(resultDecrypted)
+        # print("DEBUG")
         
         if username in resultDecrypted:
             print('Username already exists \nTry again: ')
