@@ -150,15 +150,15 @@ class Validation:
         if not isinstance(username, str):
             print('Your input is not correct. Please try again:')
             logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried a numerical input where a string was expected"), encrypt_message("No"))
-            print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
+            # print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
             return False
         if not re.match(r'^[a-zA-Z_][\w\'.]*$', username):
             print('Username is not valid')
-            print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
+            # print('DEBUG: KOMT HIJ IN DEZE FALSE? - username_login_validation')
 
             logger.addLogToDatabase("", encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
             return False
-        print('DEBUG: KOMT HIJ IN DEZE TRUE? - username_login_validation')
+        # print('DEBUG: KOMT HIJ IN DEZE TRUE? - username_login_validation')
         
         return True
 
@@ -194,16 +194,16 @@ class Validation:
         if not 12 <= len(password) <= 30:
             print('Password is not between 12 and 30 characters')
             logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which was not between 12 and 30 characters"), encrypt_message("No"))
-            print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
+            # print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
             
             return False
         if not re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
             print('Password is not valid')
             logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
-            print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
+            # print('DEBUG: KOMT HIJ IN DEZE FALSE? - password_login_validation')
             
             return False
-        print('DEBUG: KOMT HIJ IN DEZE TRUE? - password_login_validation')
+        # print('DEBUG: KOMT HIJ IN DEZE TRUE? - password_login_validation')
         
         return True
 
