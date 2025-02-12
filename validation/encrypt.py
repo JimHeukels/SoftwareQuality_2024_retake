@@ -22,6 +22,9 @@ def encrypt_message(message, public_key_path='validation/public_key.pem'):
 
 # Function to decrypt a message using the private key
 def decrypt_message(encrypted_message, private_key_path='validation/private_key.pem'):
+    if isinstance(encrypted_message, str):
+        encrypted_message = encrypted_message.encode('utf-8')
+    
     with open(private_key_path, "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
