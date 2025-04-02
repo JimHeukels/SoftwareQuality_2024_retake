@@ -63,7 +63,10 @@ class SuperAdminFunctions(databaseFunctions):
                 self.db.commit()
                 print("Admin added successfully.", firstname, lastname, username)
                 logger = LogFunction()
-                logger.addLogToDatabase(user.username, encrypt_message("Added a new admin"), encrypt_message("Admin username that has been added: " + username), encrypt_message("No"))
+                # oude log
+                # logger.addLogToDatabase(user.username, encrypt_message("Added a new admin"), encrypt_message("Admin username that has been added: " + username), encrypt_message("No"))
+                # nieuwe log
+                logger.addLogToDatabase(username=user.username, activity="Added a new admin", additional_info="Admin username that has been added: "  + username, suspicious="No")
             except sqlite3.Error as e:
                 print(f"An error occurred: {e}")
             finally:
@@ -163,7 +166,10 @@ class SuperAdminFunctions(databaseFunctions):
                 query = f"UPDATE admin SET password = ? WHERE id = ?"
 
                 # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Admin modification"), encrypt_message("password changed for admin " + specificAdmin[3]), encrypt_message("No"))
-            logger.addLogToDatabase(user.username, encrypt_message("User is modified"), encrypt_message("User that you modified is: " + (specificAdmin[1])), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("User is modified"), encrypt_message("User that you modified is: " + (specificAdmin[1])), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="User is modified", additional_info="User that you modified is: " + (specificAdmin[1]), suspicious="No")
             self.openConnection()
             self.cursor.execute(query, (new_value, specificAdmin[0]))
             self.db.commit()
@@ -221,7 +227,10 @@ class SuperAdminFunctions(databaseFunctions):
             self.db.execute(query, (specificAdmin[0],))
             self.db.commit()
             print("Admin deleted successfully.")
-            logger.addLogToDatabase(user.username, encrypt_message("Deleted a admin"), encrypt_message("Admin username: " + str(specificAdmin[3])), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("Deleted a admin"), encrypt_message("Admin username: " + str(specificAdmin[3])), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="Deleted a admin", additional_info="Admin username: " + str(specificAdmin[3]), suspicious="No")
             self.closeConnection()
 
 
@@ -284,5 +293,8 @@ class SuperAdminFunctions(databaseFunctions):
             self.db.execute(query, (temporary_password, specificAdmin[0]))
             self.db.commit()
             print("Temporary password for admin: " + specificAdmin[3] + " is: " + temporary_password)
-            logger.addLogToDatabase(user.username, encrypt_message("Reset a admin password"), encrypt_message("Consultant username: " + str(specificAdmin[3])), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("Reset a admin password"), encrypt_message("Consultant username: " + str(specificAdmin[3])), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="Reset a admin password", additional_info="Consultant username: " + str(specificAdmin[3]), suspicious="No")
             self.closeConnection()

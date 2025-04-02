@@ -40,13 +40,20 @@ class ConsultantFunctions(MemberFunctions):
                     self.db.execute(query, (firstname, lastname, username, password, data))
                     self.db.commit()
                     print("Consultant added successfully.", firstname, lastname, username)
-                    logger.addLogToDatabase(user.username, "Added a new consultant", "Username: " + username, "No")
+                    #logger functie oud
+                    # logger.addLogToDatabase(user.username, "Added a new consultant", "Username: " + username, "No")
+                    #logger functie nieuw
+                    logger.addLogToDatabase(username = user.username, activity = "Added a new consultant", additional_info = "Username: " + username, suspicious = "No")
+                    
                 except sqlite3.Error as e:
                     print(f"An error occurred: {e}")
                 finally:
                     self.closeConnection()
             else:
-                logger.addLogToDatabase(user.username, "Unauthorized access", "Tried to add a consultant", "Yes")
+                #logger functie oud
+                # logger.addLogToDatabase(user.username, "Unauthorized access", "Tried to add a consultant", "Yes")
+                #logger functie nieuw
+                logger.addLogToDatabase(username = user.username, activity = "Unauthorized access", additional_info = "Tried to add a consultant", suspicious = "Yes")
                 print("You are not authorized to add a consultant.")
                 self.closeConnection()
 
@@ -138,7 +145,11 @@ class ConsultantFunctions(MemberFunctions):
                     self.closeConnection()
 
             else:
-                logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Unauthorized access"), encrypt_message("Tried to modify a consultant"), encrypt_message("Yes"))
+                #logger functie oud
+                # logger.addLogToDatabase(encrypt_message(user.username), encrypt_message("Unauthorized access"), encrypt_message("Tried to modify a consultant"), encrypt_message("Yes"))
+                #logger functie nieuw
+                logger.addLogToDatabase(username = user.username, activity = "Unauthorized access", additional_info = "Tried to modify a consultant", suspicious = "Yes")
+
                 print("You are not authorized to modify a consultant.")
                 self.closeConnection()
 
@@ -186,9 +197,15 @@ class ConsultantFunctions(MemberFunctions):
                 self.db.execute(query, (specificConsultant[0],))
                 self.db.commit()
                 print("Consultant deleted successfully.")
-                logger.addLogToDatabase(user.username, "Deleted a consultant", "Consultant username: " + str(specificConsultant[3]), "No")
+                # logger functie oud
+                # logger.addLogToDatabase(user.username, "Deleted a consultant", "Consultant username: " + str(specificConsultant[3]), "No")
+                # logger functie nieuw
+                logger.addLogToDatabase(username = user.username, activity = "Deleted a consultant", additional_info = "Consultant username: " + str(specificConsultant[3]), suspicious = "No")
                 self.closeConnection()
         else:
-            logger.addLogToDatabase(user.username, "Unauthorized access", "Tried to delete a consultant", "Yes")
+            # logger functie oud
+            # logger.addLogToDatabase(user.username, "Unauthorized access", "Tried to delete a consultant", "Yes")
+            # logger functie nieuw
+            logger.addLogToDatabase(username = user.username, activity = "Unauthorized access", additional_info = "Tried to delete a consultant", suspicious = "Yes")
             print("You are not authorized to delete a consultant.")
             self.closeConnection()

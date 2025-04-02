@@ -2,8 +2,6 @@ import sqlite3
 from tabulate import tabulate
 from database.logFunction import LogFunction
 
-
-
 class databaseFunctions:
     
     def __init__(self):
@@ -16,15 +14,12 @@ class databaseFunctions:
             self.db = sqlite3.connect('uniqueMeal.db')
             self.cursor = self.db.cursor()
    
-    
     def closeConnection(self):
         if self.db is not None:
             self.cursor.close()
             self.db.close()
             self.db = None
             self.cursor = None
-
-      
 
     def login(self):
             from validation.inputvalidation import Validation
@@ -39,10 +34,8 @@ class databaseFunctions:
 
             logger = LogFunction()
 
-
             val = Validation()
             logger = LogFunction()
-
 
             self.openConnection()
             counter = 0
@@ -57,11 +50,14 @@ class databaseFunctions:
                 # print("DEBUG: LOGIN CHECK")
                 # print(username)
                 password = input("Please enter your password:" + "\n")
-                passwordValidated = val.password_login_validation(password)
+                passwordValidated = False
 
                 if counter > 2:
                     print("Too many failed login attempts. Log in attempt flagged.")
-                    logger.addLogToDatabase(encrypt_message("unknown user"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
+                    # oude log
+                    # logger.addLogToDatabase(encrypt_message("unknown user"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
+                    # nieuwe log
+                    logger.addLogToDatabase(username="unknown user", activity="Unsuccessful login attempt", additional_info="Multiple usernames and password tried", suspicious="Yes")
                     self.closeConnection()
                     break
 
@@ -72,6 +68,8 @@ class databaseFunctions:
                     # (the superadmin password is 10 characters long, but our validation requires a password to be at least 12 characters long)
                     # print("DEBUG: Admin_123? password entered")
                     passwordValidated = True
+                else:
+                    passwordValidated = val.password_login_validation(password)
 
                 if(usernameValidated == True and passwordValidated == True):
 
@@ -96,7 +94,6 @@ class databaseFunctions:
 
                                 if(result):
                                     
-
                                     passwordHashed = hash_password(password)
                                     if role == 'admin':
                                         # print("Admin role found")
@@ -104,14 +101,20 @@ class databaseFunctions:
                                             user = Admin(result[0], result[1], result[2], result[3], result[4], result[5])
 
                                             print("Admin validate login succeeded")     
-                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
+                                            #oude log
+                                            # logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
+                                            #nieuwe log
+                                            logger.addLogToDatabase(username=username, activity="logged in", additional_info="test", suspicious="No")
                                             self.closeConnection()
                                             return user
                                     elif role == 'consultant':
                                         if validate_password(passwordHashed, result[4]): 
                                             user = Consultant(result[0], result[1], result[2], result[3], result[4], result[5])
                                             print("Consultant validate login succeeded")
-                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
+                                            #oude log
+                                            # logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
+                                            #nieuwe log
+                                            logger.addLogToDatabase(username=username, activity="logged in", additional_info="test", suspicious="No")
                                             self.closeConnection()
                                             return user
                                     elif role == 'superadmin':
@@ -119,17 +122,18 @@ class databaseFunctions:
                                         if validate_password(passwordHashed, result[4]):
                                             user = SuperAdmin(result[0], result[1], result[2], result[3], result[4], result[5])
                                             print("Superadmin validate login succeeded")
-                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("succesfull login"), encrypt_message("No"))
+                                            #oude log
+                                            # logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("successful login"), "No")
+                                            #nieuwe log
+                                            logger.addLogToDatabase(username=username, activity="logged in", additional_info="successful login", suspicious="No")
                                             self.closeConnection()
                                             return user
                                 else:
                                     print("Incorrect login information. Please try again.")
                                 
-
                 print("Incorrect login information. Please try again.")
                 counter += 1
                 # print("DEBUG: counter increased")
-
 
                 self.closeConnection()
                         
@@ -149,24 +153,36 @@ class databaseFunctions:
             new_password = hash_password(password)
             self.db.execute(query, (new_password, user.username))
             self.db.commit()
-            logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="password updated", additional_info="", suspicious="No")
             self.closeConnection()
         elif isinstance(user, Admin):
             query = f"UPDATE admin SET password = ? WHERE username = ?"
             new_password = hash_password(password)
             self.db.execute(query, (new_password, user.username))
             self.db.commit()
-            logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="password updated", additional_info="", suspicious="No")
             self.closeConnection()
         elif isinstance(user, SuperAdmin):
             query = f"UPDATE superadmin SET password = ? WHERE username = ?"
             new_password = hash_password(password)
             self.db.execute(query, (new_password, user.username))
             self.db.commit()
-            logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # oude log
+            # logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
+            # nieuwe log
+            logger.addLogToDatabase(username=user.username, activity="password updated", additional_info="", suspicious="No")
             self.closeConnection()
         else:
-            logger.addLogToDatabase("unknown user", encrypt_message("Unauthorized password change attempt"), encrypt_message(""), encrypt_message("Yes"))
+            # oude log
+            # logger.addLogToDatabase("unknown user", encrypt_message("Unauthorized password change attempt"), encrypt_message(""), encrypt_message("Yes"))
+            # nieuwe log
+            logger.addLogToDatabase(username="unknown user", activity="Unauthorized password change attempt", additional_info="", suspicious="Yes")
             self.closeConnection()
 
     def show_user(self):
@@ -182,7 +198,6 @@ class databaseFunctions:
             UNION
             SELECT first_name, last_name, username, 'consultant' AS role
             FROM consultant
-
             '''
         # i want to add the role to the table i want if it a consultant, admin or superadmin
         self.cursor.execute(query)
@@ -220,7 +235,6 @@ class databaseFunctions:
             decrypted_username = decrypt_message(user_data[1])
             resultDecrypted.append((user_data[0], decrypted_username))
 
-            
         return resultDecrypted
    
     @staticmethod

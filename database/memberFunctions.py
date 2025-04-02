@@ -163,7 +163,7 @@ class MemberFunctions(databaseFunctions):
             print(city)
 
             phoneNr = input("Enter phone number Should in the format +31-6-xxxxxxxx:")
-            while not validator.phonenumber_validation(phoneNr, username):
+            while not validator.phone_number_validation(phoneNr, username):
                 print("Invalid phone number.")
                 errorCounter += 1
                 if errorCounter == 3:
@@ -210,7 +210,10 @@ class MemberFunctions(databaseFunctions):
             self.db.execute(query, (randomID, encrypted_firstname, encrypted_lastname, encrypted_age, encrypted_gender, encrypted_weight, encrypted_street, encrypted_houseNr, encrypted_zipCode, encrypted_city, encrypted_phoneNr, encrypted_email, current_date.strftime("%Y-%m-%d %H:%M:%S")))
             self.db.commit()
             
-            Logger.addLogToDatabase(username, encrypt_message("New Member is created"), encrypt_message("Account created for member " + firstnameInput + " " + lastnameInput), encrypt_message("No"))
+            # oude log
+            # Logger.addLogToDatabase(username, encrypt_message("New Member is created"), encrypt_message("Account created for member " + firstnameInput + " " + lastnameInput), encrypt_message("No"))
+            # nieuwe log
+            Logger.addLogToDatabase(username=username, activity="New Member is created", additional_info="Account created for member " + firstnameInput + " " + lastnameInput, suspicious="No")
             self.closeConnection()
             print("Member added successfully.")
             
@@ -420,7 +423,10 @@ class MemberFunctions(databaseFunctions):
             self.db.commit()
             Logger = LogFunction()
             
-            Logger.addLogToDatabase(username, encrypt_message("User is modified"), encrypt_message("User that you modified is: " + (specificMember[1])), encrypt_message("No"))
+            # oude log
+            # Logger.addLogToDatabase(username, encrypt_message("User is modified"), encrypt_message("User that you modified is: " + (specificMember[1])), encrypt_message("No"))
+            # nieuwe log
+            Logger.addLogToDatabase(username=username, activity="User is modified", additional_info="User that you modified is: " + (specificMember[1]), suspicious="No")
             print("Member updated successfully.")
             self.closeConnection()  
 

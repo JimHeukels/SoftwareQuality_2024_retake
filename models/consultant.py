@@ -61,12 +61,6 @@ class User:
             if matching_members is not None:
 
                 print("Matching member(s) found! ")
-                # headers = ["ID", "First Name", "Last Name", "Age", "Gender", "Weight", "Street Address", "Housenumber", "Zip Code", "City", "Phonenumber", "Email", "Registration Date"]
-                # table_data = []
-                # for member in matching_members:
-                #     print("member: ", member)
-                #     table_data.append(member)
-                # print(tabulate(table_data, headers, tablefmt="pretty"))
             else:
                 print("No matching member found")
         else:

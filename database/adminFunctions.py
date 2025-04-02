@@ -109,11 +109,12 @@ class AdminFunctions(databaseFunctions):
             self.db.execute(query, (temporary_password, specificConsultant[0]))
             self.db.commit()
             print("Temporary password for consultant: " + specificConsultant[3] + " is: " + temporary_password)
+            #logger functie oud
             logger.addLogToDatabase(user.username, encrypt_message("Reset a consultant password"), encrypt_message("Consultant username: " + str(specificConsultant[3])), encrypt_message("No"))
+            #logger functie nieuw
+            logger.addLogToDatabase(username= user.username, activity="Reset a consultant password", additional_info= "Consultant username: " + str(specificConsultant[3]), suspicious= "No")
             self.closeConnection()
     
-
-
     def add_consultant(self, user, firstname, lastname, username, password):
             from validation.encrypt import encrypt_message
 
@@ -136,7 +137,10 @@ class AdminFunctions(databaseFunctions):
                 self.db.execute(query, (encrypted_firstname, encrypted_lastname, encrypted_username, hashed_password, data))
                 self.db.commit()
                 print("Consultant added successfully.", firstname, lastname, username)
+                #logger functie oud
                 logger.addLogToDatabase(user.username, encrypt_message("Added a new consultant"), encrypt_message("Username: " + username), encrypt_message("No"))
+                #logger functie nieuw
+                logger.addLogToDatabase(username= user.username, activity="Added a new consultant", additional_info= "Username: " + username, suspicious= "No")
             except sqlite3.Error as e:
                 print(f"An error occurred: {e}")
             finally:
@@ -262,7 +266,10 @@ class AdminFunctions(databaseFunctions):
             self.db.commit()
             print("Consultant modified successfully.")
 
+            #logger functie oud
             logger.addLogToDatabase(user.username, encrypt_message("Modified a consultant"), encrypt_message("Consultant username: " + str(specificConsultant[3])), encrypt_message("No"))
+            #logger functie nieuw
+            logger.addLogToDatabase(username= user.username, activity="Modified a consultant", additional_info= "Consultant username: " + str(specificConsultant[3]), suspicious= "No")
             self.closeConnection()
 
             
@@ -326,7 +333,10 @@ class AdminFunctions(databaseFunctions):
             self.db.execute(query, (specificConsultant[0],))
             self.db.commit()
             print("Consultant deleted successfully.")
+            #logger functie oud
             logger.addLogToDatabase(user.username, encrypt_message("Deleted a consultant"), encrypt_message("Consultant username: " + str(specificConsultant[3])), encrypt_message("No"))
+            #logger functie nieuw
+            logger.addLogToDatabase(username= user.username, activity="Deleted a consultant", additional_info= "Consultant username: " + str(specificConsultant[3]), suspicious= "No")
             
             self.closeConnection()
     
@@ -389,7 +399,10 @@ class AdminFunctions(databaseFunctions):
             self.db.execute(query, (specificMember[0],))
             self.db.commit()
             print("Member deleted successfully.")
+            #logger functie oud
             logger.addLogToDatabase(user.username, encrypt_message("Deleted a member"), encrypt_message("Members name: " + str(specificMember[1] + " " + str(specificMember[2]) )), encrypt_message("No"))
+            #logger functie nieuw
+            logger.addLogToDatabase(username= user.username, activity="Deleted a member", additional_info= "Members name: " + str(specificMember[1] + " " + str(specificMember[2])), suspicious= "No")
             self.closeConnection()
       
         
