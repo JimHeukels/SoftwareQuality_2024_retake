@@ -61,7 +61,7 @@ class databaseFunctions:
 
                 if counter > 2:
                     print("Too many failed login attempts. Log in attempt flagged.")
-                    logger.addLogToDatabase(encrypt_message("unknown"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
+                    logger.addLogToDatabase(encrypt_message("unknown user"), encrypt_message("Unsuccessful login attempt"), encrypt_message("Multiple usernames and password tried"), encrypt_message("Yes"))
                     self.closeConnection()
                     break
 
@@ -104,14 +104,14 @@ class databaseFunctions:
                                             user = Admin(result[0], result[1], result[2], result[3], result[4], result[5])
 
                                             print("Admin validate login succeeded")     
-                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
+                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
                                             self.closeConnection()
                                             return user
                                     elif role == 'consultant':
                                         if validate_password(passwordHashed, result[4]): 
                                             user = Consultant(result[0], result[1], result[2], result[3], result[4], result[5])
                                             print("Consultant validate login succeeded")
-                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message(""), encrypt_message("No"))
+                                            logger.addLogToDatabase(encrypt_message(username), encrypt_message("logged in"), encrypt_message("test"), encrypt_message("No"))
                                             self.closeConnection()
                                             return user
                                     elif role == 'superadmin':
@@ -133,15 +133,6 @@ class databaseFunctions:
 
                 self.closeConnection()
                         
-                
-                
-                
-
-
-
-
-
-            
     def updatePassword(self, user, password):
         from models.consultant import Consultant
         from models.admin import Admin
@@ -152,12 +143,7 @@ class databaseFunctions:
 
         logger = LogFunction()
         
-
-
-
         self.openConnection()
-        # encrypted_username = encrypter.encrypt_message(user.username)
-        # print(user.username)
         if isinstance(user, Consultant):
             query = f"UPDATE consultant SET password = ? WHERE username = ?"
             new_password = hash_password(password)
@@ -180,11 +166,9 @@ class databaseFunctions:
             logger.addLogToDatabase(user.username, encrypt_message("password updated"), encrypt_message(""), encrypt_message("No"))
             self.closeConnection()
         else:
-            logger.addLogToDatabase(encrypt_message("unknown"), encrypt_message("Unauthorized password change attempt"), encrypt_message(""), encrypt_message("Yes"))
+            logger.addLogToDatabase("unknown user", encrypt_message("Unauthorized password change attempt"), encrypt_message(""), encrypt_message("Yes"))
             self.closeConnection()
 
-
-      
     def show_user(self):
 
         from validation.encrypt import decrypt_message
@@ -213,7 +197,6 @@ class databaseFunctions:
     def queryAllUsers(self):
         from validation.encrypt import decrypt_message
 
-        
         # tables = ['admin', 'consultant', 'superadmin']
         tables = ['admin', 'consultant', 'superadmin']
 
