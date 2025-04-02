@@ -16,7 +16,6 @@ class Validation:
         print('Username is not valid')
         self.logger.addLogToDatabase(logged_in_user, encrypt_message("Incorrect username input"), encrypt_message("Tried inputting a username that didn't confide by the username format"), encrypt_message("No"))
         return False
-     
     
     # Behandeld
     def name_validation(self, name, username):
@@ -35,7 +34,6 @@ class Validation:
         self.logger.addLogToDatabase(username, encrypt_message("Unsuccessful password input"),
                                         encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
         return False
-
     
     # Behandeld
     def password_update_validation(self, password, username):
@@ -59,7 +57,7 @@ class Validation:
         if 12 <= len(password) <= 30 and re.match(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$", password):
             return True
         print('Password is not valid')
-        self.logger.addLogToDatabase("", encrypt_message("Unsuccessful password input"), 
+        self.logger.addLogToDatabase(encrypt_message("unknown user"), encrypt_message("Unsuccessful password input"), 
                                      encrypt_message("Tried inputting a password which did not conform to the password rules"), encrypt_message("No"))
         return False
 
@@ -92,7 +90,7 @@ class Validation:
                                      encrypt_message("Tried a non-string input for a streetname"), encrypt_message("No"))
         return False
                                      
-    #Behandeld
+    # Behandeld
     def housenumber_validation(self, housenumber, username):
         if housenumber.isdigit() and re.match(r"^[1-9]\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\d*))?$", housenumber):
             return True
@@ -120,7 +118,7 @@ class Validation:
                                         encrypt_message("Tried a phonenumber that didn't confide to the phonenumber format"), encrypt_message("No"))
         return False
     
-    #Behandeld 
+    # Behandeld 
     def email_validation(self, email, username):
         if re.match(r"[^@]+@[^@]+\.[^@]+", email):
             return True
@@ -129,7 +127,7 @@ class Validation:
                                         encrypt_message("Tried an email input which was not valid"), encrypt_message("No"))
         return False
     
-   # Behandeld
+    # Behandeld
     def city_validation(self, city, username):
         list_city = ['Amsterdam', 'Rotterdam', 'Utrecht', 'Groningen', 'Maastricht', 'Den Haag', 'Eindhoven', 'Tilburg', 'Breda', 'Arnhem']
         if city.isdigit() and 1 <= int(city) <= 10:
@@ -139,7 +137,7 @@ class Validation:
                                         encrypt_message("Tried a city input which was not between 1 and 10"), encrypt_message("No"))
         return False
      
-     # Behandeld
+    # Behandeld
     def gender_validation(self, gender, username):
         if isinstance(gender, str) and re.match(r"^[FfMm]$", gender):
             return True
@@ -147,8 +145,3 @@ class Validation:
         self.logger.addLogToDatabase(username, encrypt_message("Incorrect gender input"),
                                         encrypt_message("Tried a non-string input"), encrypt_message("No"))
         return False
-            
-        
-    
-  
-        
